@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Video Recorder</title>
+  </head>
+  <link rel="stylesheet" href="style.css">
+  <body>
+    <video id="video" width="480" height="360" autoplay></video> <br />
+    <button id="startRecord">Start Recording</button>
+    <button id="stopRecord">Stop Recording</button>
+    <a id="downloadLink" download="video.mp4">Download Video</a>
+
+    <script type="text/javascript">
+      var video = document.querySelector('#video');
+      var startRecord = document.querySelector('#startRecord');
+      var stopRecord = document.querySelector('#stopRecord');
+      var downloadLink = document.querySelector('#downloadLink');
+
+      window.onload = async function () {
+        stopRecord.style.display = 'none';
+
+        videoStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: true,
+        });
+        video.srcObject = videoStream;
+      };
+
+      startRecord.onclick = function () {
+        startRecord.style.display = 'none';
+        stopRecord.style.display = 'inline';
+
+        mediaRecorder = new MediaRecorder(videoStream);
+
+        let blob = [];
+        mediaRecorder.addEventListener('dataavailable', function (e) {
+          blob.push(e.data);
+        });
+
+        mediaRecorder.addEventListener('stop', function () {
+          var videoLocal = URL.createObjectURL(new Blob(blob));
+          downloadLink.href = videoLocal;
+        });
+
+        mediaRecorder.start();
+      };
+
+      stopRecord.onclick = function () {
+        mediaRecorder.stop();
+      };
+    </script>
+  </body>
+</html>

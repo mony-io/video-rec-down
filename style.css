@@ -1,0 +1,32 @@
+body {
+  margin: 0;
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  height: 100vh;
+}
+
+video {
+    border-radius: 2px;
+}
+
+button {
+    padding: 10px;
+    margin-bottom: 3rem;
+}
+
+a {
+    border: 1px solid black; 
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: #fff;
+    background: #000;
+}
